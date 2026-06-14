@@ -3,9 +3,20 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-const NAV_LINKS = ["about", "work", "games", "writing", "contact"];
+const NAV_LINKS = ["about", "work", "art", "games", "writing", "contact"];
 
-const DESIGN_WORK = [
+type DesignProject = {
+  name: string;
+  type: string;
+  desc: string;
+  tags: string[];
+  href: string | null;
+  label: string | null;
+  rotate: string;
+  images?: string[];
+};
+
+const DESIGN_WORK: DesignProject[] = [
   {
     name: "Stable Stakes — Matchup Card Redesign",
     type: "Product Design / UI-UX",
@@ -45,11 +56,12 @@ const DESIGN_WORK = [
   {
     name: "FAST Culinary Club — Branding",
     type: "Graphic Design & Branding",
-    desc: "Created the club's full visual identity — event posters, social graphics, and communications. Established a cohesive look and feel across all club touchpoints.",
+    desc: "Created the club's full visual identity — team graphics, event posters, social banners, and communications. Established a cohesive look and feel across all club touchpoints.",
     tags: ["Branding", "Graphic Design", "Canva"],
     href: null,
     label: null,
     rotate: "-0.4deg",
+    images: ["/design-publications.png", "/design-finance.png", "/design-noodles.png", "/design-food.png", "/design-blogposter.png"],
   },
 ];
 
@@ -72,31 +84,31 @@ const GAMES = [
 
 const POSTS = [
   {
+    title: "The Bear",
+    date: "2025",
+    preview: "Amelia puts down her novel, Faithful Place, on the bedside table. Tana French is her favorite author of all time. She headed downstairs to…",
+    href: "https://medium.com/@adeenazaib42/the-bear-0c23cddd8945",
+    rotate: "-0.5deg",
+  },
+  {
     title: "I was the reason for my Grandpa's death ….",
     date: "Jun 17, 2020",
     preview: "A deeply personal story about grief, memory, and the weight of a childhood moment that stays with you forever.",
-    href: "https://medium.com/@adeenazaib42",
-    rotate: "-0.5deg",
+    href: "https://medium.com/@adeenazaib42/i-was-the-reason-for-my-grandpas-death-1d8f7e59f84",
+    rotate: "0.7deg",
   },
   {
     title: "Lead White — Favourite of oil painters",
     date: "Jun 14, 2020",
     preview: "A deep dive into one of history's most beloved — and dangerous — pigments, used by masters from Vermeer to Rembrandt.",
-    href: "https://medium.com/@adeenazaib42",
-    rotate: "0.7deg",
-  },
-  {
-    title: "Scheele's Green — A Deadly Pigment",
-    date: "Jun 13, 2020",
-    preview: "The story of a brilliant green pigment that swept through Victorian wallpaper, fashion, and confectionery — with deadly consequences.",
-    href: "https://medium.com/@adeenazaib42",
+    href: "https://medium.com/@adeenazaib42/lead-white-favourite-of-oil-painters-7470830fdccd",
     rotate: "-0.8deg",
   },
   {
     title: "8 Fan Theories About 'The Umbrella Academy' Season 2",
     date: "Jun 16, 2020",
     preview: "Ahead of the Season 2 drop, a roundup of the most compelling fan theories circling the internet about the Hargreeves siblings.",
-    href: "https://medium.com/@adeenazaib42",
+    href: "https://medium.com/@adeenazaib42/8-fan-theories-about-the-umbrella-academy-season-2-7be9b542d778",
     rotate: "0.5deg",
   },
 ];
@@ -291,11 +303,11 @@ export default function Home() {
                 onMouseLeave={e => { e.currentTarget.style.backgroundColor = "#BB8588"; e.currentTarget.style.transform = "scale(1)"; }}>
                 get in touch
               </a>
-              <a href="https://www.figma.com/design/XfhPEjd4siaUh9I0CUow5Q" target="_blank" rel="noopener noreferrer"
+              <a href="https://github.com/AdeenaZaib" target="_blank" rel="noopener noreferrer"
                 style={{ border: "1.5px solid #A3A380", color: "#5C4A3A", padding: "0.6rem 1.6rem", borderRadius: 999, fontSize: "0.85rem", transition: "all 0.25s", display: "inline-block" }}
                 onMouseEnter={e => { e.currentTarget.style.backgroundColor = "rgba(215,206,147,0.35)"; e.currentTarget.style.transform = "scale(1.04)"; }}
                 onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.transform = "scale(1)"; }}>
-                View Figma
+                GitHub
               </a>
             </div>
           </div>
@@ -386,6 +398,13 @@ export default function Home() {
                       <span key={tag} className={TAG_BG[(i + ti) % TAG_BG.length]} style={{ padding: "0.15rem 0.65rem", borderRadius: 999, fontSize: "0.72rem", fontWeight: 500 }}>{tag}</span>
                     ))}
                   </div>
+                  {project.images && (
+                    <div style={{ display: "flex", gap: "0.4rem", overflowX: "auto", marginBottom: "0.9rem", paddingBottom: "0.25rem" }}>
+                      {project.images.map((src, ii) => (
+                        <Image key={ii} src={src} alt="" width={90} height={90} style={{ width: 90, height: 90, objectFit: "cover", borderRadius: 4, flexShrink: 0, border: "1px solid rgba(215,206,147,0.4)" }} />
+                      ))}
+                    </div>
+                  )}
                   {project.label && (
                     <span style={{ fontSize: "0.78rem", color: "#BB8588", fontWeight: 600 }}>{project.label} →</span>
                   )}
@@ -402,15 +421,36 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Art placeholder */}
+        {/* Art */}
         <section id="art">
           <FadeIn><SectionLabel>art</SectionLabel></FadeIn>
           <FadeIn delay={80}>
-            <div style={{ position: "relative", backgroundColor: "#EDE7D9", borderRadius: 4, padding: "2.5rem", border: "2px dashed rgba(163,163,128,0.4)", textAlign: "center" }}>
-              <div style={{ fontFamily: "var(--font-caveat), cursive", color: "#BB8588", fontSize: "1.3rem", marginBottom: "0.5rem" }}>coming soon ✦</div>
-              <p style={{ color: "rgba(92,74,58,0.55)", fontSize: "0.88rem" }}>Art gallery — drop your images and they&apos;ll appear here.</p>
-            </div>
+            <p style={{ color: "rgba(92,74,58,0.6)", fontSize: "0.85rem", marginBottom: "1.5rem", marginTop: "-0.5rem" }}>
+              Acrylic and mixed media — things I make when I&apos;m not in front of a screen.
+            </p>
           </FadeIn>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { src: "/art-face.jpg",  title: "Untitled Portrait", medium: "Acrylic on paper", rotate: "-0.8deg" },
+              { src: "/art-face2.jpg", title: "Study in Shadow",   medium: "Acrylic on paper", rotate: "0.6deg"  },
+            ].map((piece, i) => (
+              <FadeIn key={piece.title} delay={i * 90}>
+                <div style={{ position: "relative", transform: `rotate(${piece.rotate})`, transition: "transform 0.25s, box-shadow 0.25s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px) rotate(0deg)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "4px 10px 28px rgba(92,74,58,0.15)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = `rotate(${piece.rotate})`; (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}>
+                  <Tape color={i === 0 ? "rgba(215,206,147,0.65)" : "rgba(216,164,143,0.55)"} rotate={i === 0 ? "-2deg" : "2deg"} style={{ top: -9, left: "50%", transform: "translateX(-50%)" }} />
+                  {/* Polaroid frame */}
+                  <div style={{ backgroundColor: "#EDE7D9", padding: "10px 10px 44px 10px", boxShadow: "3px 5px 18px rgba(92,74,58,0.12)", border: "1px solid rgba(215,206,147,0.5)", borderRadius: 4 }}>
+                    <Image src={piece.src} alt={piece.title} width={600} height={500} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 2, display: "block" }} />
+                    <div style={{ paddingTop: 10, textAlign: "center" }}>
+                      <div style={{ fontFamily: "var(--font-nunito), sans-serif", color: "#5C4A3A", fontWeight: 700, fontSize: "0.9rem" }}>{piece.title}</div>
+                      <div style={{ fontFamily: "var(--font-caveat), cursive", color: "#A3A380", fontSize: "0.85rem" }}>{piece.medium}</div>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
         </section>
 
         {/* Games */}
