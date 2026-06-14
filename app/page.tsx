@@ -189,6 +189,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("about");
   const [menuOpen, setMenuOpen] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);
@@ -422,11 +423,13 @@ export default function Home() {
           </FadeIn>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { src: "/art-face.jpg",  title: "Untitled Portrait", medium: "Acrylic on paper", rotate: "-0.8deg" },
-              { src: "/art-face2.jpg", title: "Study in Shadow",   medium: "Acrylic on paper", rotate: "0.6deg"  },
+              { src: "/art-1.jpg",  title: "Night Sky",       medium: "Acrylic on canvas", rotate: "-0.8deg" },
+              { src: "/art-2.jpg",  title: "Study in Shadow", medium: "Acrylic on paper",  rotate: "0.6deg"  },
             ].map((piece, i) => (
               <FadeIn key={piece.title} delay={i * 90}>
-                <div style={{ position: "relative", transform: `rotate(${piece.rotate})`, transition: "transform 0.25s, box-shadow 0.25s" }}
+                <div
+                  onClick={() => setLightbox(piece.src)}
+                  style={{ position: "relative", transform: `rotate(${piece.rotate})`, transition: "transform 0.25s, box-shadow 0.25s", cursor: "zoom-in" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px) rotate(0deg)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "4px 10px 28px rgba(92,74,58,0.15)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = `rotate(${piece.rotate})`; (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}>
                   <Tape color={i === 0 ? "rgba(215,206,147,0.65)" : "rgba(216,164,143,0.55)"} rotate={i === 0 ? "-2deg" : "2deg"} style={{ top: -9, left: "50%", transform: "translateX(-50%)" }} />
@@ -536,6 +539,16 @@ export default function Home() {
       <footer style={{ textAlign: "center", padding: "2rem", color: "rgba(92,74,58,0.35)", borderTop: "1px dashed rgba(215,206,147,0.5)", fontFamily: "var(--font-caveat), cursive", fontSize: "0.95rem" }}>
         © 2025 Adeena Zaib · design portfolio ✦
       </footer>
+
+      {/* Art Lightbox */}
+      {lightbox && (
+        <div onClick={() => setLightbox(null)} style={{ position: "fixed", inset: 0, zIndex: 100, backgroundColor: "rgba(92,74,58,0.85)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", cursor: "zoom-out" }}>
+          <div style={{ position: "relative" }}>
+            <Image src={lightbox} alt="Full size" width={1200} height={1200} style={{ maxWidth: "90vw", maxHeight: "88vh", objectFit: "contain", borderRadius: 4, boxShadow: "0 24px 64px rgba(0,0,0,0.4)" }} />
+            <button onClick={() => setLightbox(null)} style={{ position: "absolute", top: -14, right: -14, width: 32, height: 32, borderRadius: "50%", backgroundColor: "#BB8588", color: "#fff", border: "none", cursor: "pointer", fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

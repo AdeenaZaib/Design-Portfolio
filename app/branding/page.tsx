@@ -9,7 +9,6 @@ const POSTERS = [
   { src: "/branding-2.png", title: "Team Finance",      desc: "Bold, high-energy graphic for the Finance team." },
   { src: "/branding-3.png", title: "Spicy Noodles Challenge", desc: "Event poster for the FAST Culinary Club challenge." },
   { src: "/branding-4.png", title: "Food for Thought",  desc: "Newsletter banner — a guide to campus food and recipes." },
-  { src: "/design-blogposter.png", title: "Blog Poster", desc: "Promotional poster for the club's blog launch." },
 ];
 
 export default function BrandingPage() {
