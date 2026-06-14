@@ -13,7 +13,6 @@ type DesignProject = {
   href: string | null;
   label: string | null;
   rotate: string;
-  images?: string[];
 };
 
 const DESIGN_WORK: DesignProject[] = [
@@ -58,10 +57,9 @@ const DESIGN_WORK: DesignProject[] = [
     type: "Graphic Design & Branding",
     desc: "Created the club's full visual identity — team graphics, event posters, social banners, and communications. Established a cohesive look and feel across all club touchpoints.",
     tags: ["Branding", "Graphic Design", "Canva"],
-    href: null,
-    label: null,
+    href: "/branding",
+    label: "View Posters",
     rotate: "-0.4deg",
-    images: ["/design-publications.png", "/design-finance.png", "/design-noodles.png", "/design-food.png", "/design-blogposter.png"],
   },
 ];
 
@@ -398,13 +396,6 @@ export default function Home() {
                       <span key={tag} className={TAG_BG[(i + ti) % TAG_BG.length]} style={{ padding: "0.15rem 0.65rem", borderRadius: 999, fontSize: "0.72rem", fontWeight: 500 }}>{tag}</span>
                     ))}
                   </div>
-                  {project.images && (
-                    <div style={{ display: "flex", gap: "0.4rem", overflowX: "auto", marginBottom: "0.9rem", paddingBottom: "0.25rem" }}>
-                      {project.images.map((src, ii) => (
-                        <Image key={ii} src={src} alt="" width={90} height={90} style={{ width: 90, height: 90, objectFit: "cover", borderRadius: 4, flexShrink: 0, border: "1px solid rgba(215,206,147,0.4)" }} />
-                      ))}
-                    </div>
-                  )}
                   {project.label && (
                     <span style={{ fontSize: "0.78rem", color: "#BB8588", fontWeight: 600 }}>{project.label} →</span>
                   )}
